@@ -97,8 +97,9 @@ if __name__ == "__main__":
     print foo.xyz
     foo.abc = 123
     print foo['abc']
+    foo = Dot()
     foo.dee = Dot(bar = 11111)
-    foo['def'] = {'bar': 11112}         #foo.def errors due to keyword
+    foo['def'] = Dot({'bar': 11112})         #foo.def errors due to keyword
     print foo
     print "> 200:", foo.GE(200)
     print "> 100:", foo.GE(100)
@@ -106,3 +107,5 @@ if __name__ == "__main__":
     x = foo.EQ['bar'](11111)[0]
     print x, foo[x].bar
     print "AND:", foo.AND(GT.bar(11110), LT.bar(11112))
+    print "pony style:", [e for e in foo if 'bar' in foo[e] and foo[e].bar > 11110 and foo[e].bar < 11112]
+    
