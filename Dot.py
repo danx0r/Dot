@@ -4,6 +4,7 @@ class Dot(dict):
      
     def __setattr__(self, key, val):
         self[key] = val
+
 if __name__ == "__main__":
     foo = Dot()
     foo['xyz'] = 456
