@@ -107,5 +107,5 @@ if __name__ == "__main__":
     x = foo.EQ['bar'](11111)[0]
     print x, foo[x].bar
     print "AND:", foo.AND(GT.bar(11110), LT.bar(11112))
-    print "pony style:", [e for e in foo if 'bar' in foo[e] and foo[e].bar > 11110 and foo[e].bar < 11112]
+    print "pony style:", [e for e in foo if foo[e].bar > 11110 and foo[e].bar < 11112]
     
