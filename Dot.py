@@ -32,6 +32,13 @@ class Dot(dict):
         temp = dict(self)
         return repr(temp)
 
+def isDictType(d):
+    try:
+        d.has_key
+    except:
+        return False
+    return True
+
 class DotCompareMethod(object):
     def __init__(self, super, op, attr=None):
         self.super = super
@@ -51,12 +58,17 @@ class DotCompareMethod(object):
             if self.attr:
                 try:
                     if self.attr in self.super[key] and self.op(self.super[key][self.attr], val):
-                        result.append(key)
+                        a = self.super[key][self.attr]
+                        if isDictType(a) == isDictType(val):
+                            result.append(key)
                 except:
                     pass
             else:
-                if self.op(self.super[key], val):
-                    result.append(key)
+                a = self.super[key]
+#                 print "DEBUG", a, val, isDictType(a), isDictType(val), isDictType(a) == isDictType(val)
+                if isDictType(a) == isDictType(val):
+                    if self.op(a, val):
+                        result.append(key)
         return result
 
 class DotCompareFunction(object):
