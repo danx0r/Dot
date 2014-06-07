@@ -23,7 +23,7 @@ class DotComparator(object):
         self.attr = attr
 
     def __getattr__(self, attribute):
-        print "GE attrib:", self.super, attribute
+#         print "GE attrib:", self.super, attribute
         return DotComparator(self.super, self.op, attribute)
 
     def __call__(self, val):
@@ -31,7 +31,7 @@ class DotComparator(object):
         result = []
         for key in self.super:
             if key != 'GE':
-                print "COMPARE:", self.super[key], ">=", val
+#                 print "COMPARE:", self.super[key], ">=", val
                 if self.attr:
                     try:
                         if self.attr in self.super[key] and self.super[key][self.attr] >= val:
