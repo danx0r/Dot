@@ -3,7 +3,7 @@ import operator, types
 class Dot(dict):
     def __init__(self, *args):
         dict.__init__(self, *args)
-        self.GE = DotComparator(self, operator.ge)
+        dict.__setattr__(self, 'GE', DotComparator(self, operator.ge))      #our __setattr__ is overloaded! use base class method
 
     def __getattr__(self, attribute):
         return self[attribute]
@@ -13,7 +13,7 @@ class Dot(dict):
         
     def __repr__(self):
         temp = dict(self)
-        del temp['GE']
+#         del temp['GE']
         return repr(temp)
 
 class DotComparator(object):
@@ -26,24 +26,21 @@ class DotComparator(object):
         return DotComparator(self.super, self.op, attribute)
 
     def __getattr__(self, attribute):
-#         print "GE attrib:", self.super, attribute
         return DotComparator(self.super, self.op, attribute)
 
     def __call__(self, val):
-#         print "GE call():", args
         result = []
         for key in self.super:
-            if key != 'GE':
-#                 print "COMPARE:", self.super[key], ">=", val
-                if self.attr:
-                    try:
-                        if self.attr in self.super[key] and self.super[key][self.attr] >= val:
-                            result.append(key)
-                    except:
-                        pass
-                else:
-                    if self.super[key] >= val:
+#             print "COMPARE:", self.super[key], ">=", val
+            if self.attr:
+                try:
+                    if self.attr in self.super[key] and self.super[key][self.attr] >= val:
                         result.append(key)
+                except:
+                    pass
+            else:
+                if self.super[key] >= val:
+                    result.append(key)
         return result
 
 if __name__ == "__main__":
