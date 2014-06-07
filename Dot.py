@@ -13,7 +13,20 @@ class Dot(dict):
         self[key] = val
 
     def AND(self, *args):
-        print "DEBUG AND args:", args
+#         print "DEBUG AND args:", args
+        result = []
+        for key in self:
+#             print "AND COMPARE:", key, args
+            do = True
+            for op, test, val in args:
+                try:
+                    if not op(self[key][test], val):
+                        do = False
+                except:
+                    pass
+            if do:
+                result.append(key)
+        return result
         
     def __repr__(self):
         temp = dict(self)
@@ -56,11 +69,12 @@ class DotCompareFunction(object):
         return DotCompareFunction(self.op, attribute)
 
     def __getattr__(self, attribute):
+#         print "DEBUG DotCompare attr:", attribute
         return DotCompareFunction(self.op, attribute)
 
     def __call__(self, val):
-        print "DEBUG DotCompare Call:", self, val
-        return (self.op, val)
+#         print "DEBUG DotCompare Call:", self, val
+        return (self.op, self.attr, val)
 
 GT = DotCompareFunction(operator.gt)
 LT = DotCompareFunction(operator.lt)
@@ -71,6 +85,7 @@ if __name__ == "__main__":
     print foo.xyz
     foo.abc = 123
     print foo['abc']
+    foo = Dot()
     foo.dee = Dot({'bar': 11111})
     foo['def'] = Dot({'bar': 11112})         #foo.def errors due to keyword
     print foo
