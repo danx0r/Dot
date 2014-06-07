@@ -97,12 +97,12 @@ if __name__ == "__main__":
     print foo.xyz
     foo.abc = 123
     print foo['abc']
+    print "> 200:", foo.GE(200)
+    print "> 100:", foo.GE(100)
     foo = Dot()
     foo.dee = Dot(bar = 11111)
     foo['def'] = Dot({'bar': 11112})         #foo.def errors due to keyword
     print foo
-    print "> 200:", foo.GE(200)
-    print "> 100:", foo.GE(100)
     print "nested:", foo.GE.bar(11112)
     x = foo.EQ['bar'](11111)[0]
     print x, foo[x].bar
