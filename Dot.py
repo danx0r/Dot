@@ -1,8 +1,8 @@
 import operator, types
 
 class Dot(dict):
-    def __init__(self, *args):
-        dict.__init__(self, *args)
+    def __init__(self, *args, **kw):
+        dict.__init__(self, *args, **kw)
         dict.__setattr__(self, 'GE', DotCompareMethod(self, operator.ge))      #our __setattr__ is overloaded! use base class method
         dict.__setattr__(self, 'EQ', DotCompareMethod(self, operator.eq))
 
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     print foo.xyz
     foo.abc = 123
     print foo['abc']
-    foo.dee = Dot({'bar': 11111})
+    foo.dee = Dot(bar = 11111)
     foo['def'] = Dot({'bar': 11112})         #foo.def errors due to keyword
     print foo
     print "> 200:", foo.GE(200)
