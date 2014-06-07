@@ -3,30 +3,33 @@ import operator, types
 class Dot(dict):
     def __init__(self, *args):
         dict.__init__(self, *args)
-        dict.__setattr__(self, 'GE', DotComparator(self, operator.ge))      #our __setattr__ is overloaded! use base class method
-        dict.__setattr__(self, 'EQ', DotComparator(self, operator.eq))
+        dict.__setattr__(self, 'GE', DotCompareMethod(self, operator.ge))      #our __setattr__ is overloaded! use base class method
+        dict.__setattr__(self, 'EQ', DotCompareMethod(self, operator.eq))
 
     def __getattr__(self, attribute):
         return self[attribute]
      
     def __setattr__(self, key, val):
         self[key] = val
+
+    def AND(self, *args):
+        print "DEBUG AND args:", args
         
     def __repr__(self):
         temp = dict(self)
         return repr(temp)
 
-class DotComparator(object):
+class DotCompareMethod(object):
     def __init__(self, super, op, attr=None):
         self.super = super
         self.op = op
         self.attr = attr
 
     def __getitem__(self, attribute):
-        return DotComparator(self.super, self.op, attribute)
+        return DotCompareMethod(self.super, self.op, attribute)
 
     def __getattr__(self, attribute):
-        return DotComparator(self.super, self.op, attribute)
+        return DotCompareMethod(self.super, self.op, attribute)
 
     def __call__(self, val):
         result = []
@@ -43,6 +46,25 @@ class DotComparator(object):
                     result.append(key)
         return result
 
+class DotCompareFunction(object):
+    def __init__(self, op, attr=None):
+        self.super = super
+        self.op = op
+        self.attr = attr
+
+    def __getitem__(self, attribute):
+        return DotCompareFunction(self.op, attribute)
+
+    def __getattr__(self, attribute):
+        return DotCompareFunction(self.op, attribute)
+
+    def __call__(self, val):
+        print "DEBUG DotCompare Call:", self, val
+        return (self.op, val)
+
+GT = DotCompareFunction(operator.gt)
+LT = DotCompareFunction(operator.lt)
+
 if __name__ == "__main__":
     foo = Dot()
     foo['xyz'] = 456
@@ -57,3 +79,4 @@ if __name__ == "__main__":
     print "nested:", foo.GE.bar(11112)
     x = foo.EQ['bar'](11111)[0]
     print x, foo[x].bar
+    print "AND:", foo.AND(GT.bar(11110), LT.bar(11112))
