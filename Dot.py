@@ -1,13 +1,16 @@
 class Dot(dict):
-    pass
-    def __getattribute__(self, attribute):
+    def __getattr__(self, attribute):
         return self[attribute]
      
     def __setattr__(self, key, val):
-        print "set", key, val
         self[key] = val
-#     def __getitem__(self, item):
-#         return self.__dict__[item]
+
+    def GE(self, val):
+        result = []
+        for key in self:
+            if self[key] >= val:
+                result.append(val)
+        return result
 
 if __name__ == "__main__":
     foo = Dot()
@@ -16,3 +19,5 @@ if __name__ == "__main__":
     foo.abc = 123
     print foo['abc']
     print foo
+    print "> 200:", foo.GE(200)
+    print "> 100:", foo.GE(100)
