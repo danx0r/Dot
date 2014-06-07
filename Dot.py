@@ -9,7 +9,7 @@ class Dot(dict):
         result = []
         for key in self:
             if self[key] >= val:
-                result.append(val)
+                result.append(key)
         return result
 
 if __name__ == "__main__":
