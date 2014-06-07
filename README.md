@@ -13,3 +13,11 @@ so I created a class called Dot, that does the same:
     foo.abc = 123
     foo['abc']
     >>> 123
+
+makes some complicated expressions shorter and easier to read:
+
+	if foo[e]['bar']['far'] == foo[e]['bar']['fat']:
+	
+becomes
+
+	if foo[e].bar.far == foo[e].bar.fat:

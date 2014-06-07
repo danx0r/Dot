@@ -14,6 +14,8 @@ if __name__ == "__main__":
     print foo.update                            #doesn't work; still a method
     print foo['update']
     foo = Dot()
-    foo.abc = Dot(bar = 4, bat = 5)
-    foo['def'] = Dot(bar = 7, bat = 8)          #.def reserved; foo.def = syntax error
-    print [e for e in foo if foo[e].bar == 7]
+    foo.abc = Dot(bar = Dot(far = 3), bat = 5)
+    foo['def'] = Dot(bar = Dot(far = 7), bat = 8)          #.def reserved; foo.def = syntax error
+    print foo
+    print [e for e in foo if foo[e]['bar']['far'] == 3]
+    print [e for e in foo if foo[e].bar.far == 7]
