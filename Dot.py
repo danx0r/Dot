@@ -1,3 +1,6 @@
+#
+# dict with js-like dot access
+#
 class Dot(dict):
     def __getattr__(self, attribute):
         return self[attribute]
