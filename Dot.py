@@ -43,8 +43,6 @@ class DotComparator(object):
                         result.append(key)
         return result
 
-# Dot.GE = DotComparator(operator.ge)
-
 if __name__ == "__main__":
     foo = Dot()
     foo['xyz'] = 456
