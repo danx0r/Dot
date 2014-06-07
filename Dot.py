@@ -4,6 +4,7 @@ class Dot(dict):
     def __init__(self, *args):
         dict.__init__(self, *args)
         dict.__setattr__(self, 'GE', DotComparator(self, operator.ge))      #our __setattr__ is overloaded! use base class method
+        dict.__setattr__(self, 'EQ', DotComparator(self, operator.eq))
 
     def __getattr__(self, attribute):
         return self[attribute]
@@ -33,12 +34,12 @@ class DotComparator(object):
 #             print "COMPARE:", self.super[key], ">=", val
             if self.attr:
                 try:
-                    if self.attr in self.super[key] and self.super[key][self.attr] >= val:
+                    if self.attr in self.super[key] and self.op(self.super[key][self.attr], val):
                         result.append(key)
                 except:
                     pass
             else:
-                if self.super[key] >= val:
+                if self.op(self.super[key], val):
                     result.append(key)
         return result
 
@@ -54,4 +55,4 @@ if __name__ == "__main__":
     print "> 200:", foo.GE(200)
     print "> 100:", foo.GE(100)
     print "nested:", foo.GE.bar(11112)
-    print "nested:", foo.GE['bar'](11111)
+    print "nested:", foo.EQ['bar'](11111)
