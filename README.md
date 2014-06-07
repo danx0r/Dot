@@ -1,3 +1,5 @@
+####Dot
+
 it started simply enough... I wanted to combine the features of Python classes and dicts. Javascript objects allow you to mix dot and subscript syntax, like so:
 
     foo = {}
