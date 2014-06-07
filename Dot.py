@@ -22,6 +22,9 @@ class DotComparator(object):
         self.op = op
         self.attr = attr
 
+    def __getitem__(self, attribute):
+        return DotComparator(self.super, self.op, attribute)
+
     def __getattr__(self, attribute):
 #         print "GE attrib:", self.super, attribute
         return DotComparator(self.super, self.op, attribute)
@@ -55,3 +58,4 @@ if __name__ == "__main__":
     print "> 200:", foo.GE(200)
     print "> 100:", foo.GE(100)
     print "nested:", foo.GE.bar(11112)
+    print "nested:", foo.GE['bar'](11111)
