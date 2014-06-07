@@ -98,7 +98,7 @@ if __name__ == "__main__":
     foo.abc = 123
     print foo['abc']
     foo.dee = Dot(bar = 11111)
-    foo['def'] = Dot({'bar': 11112})         #foo.def errors due to keyword
+    foo['def'] = {'bar': 11112}         #foo.def errors due to keyword
     print foo
     print "> 200:", foo.GE(200)
     print "> 100:", foo.GE(100)
