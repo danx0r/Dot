@@ -13,7 +13,6 @@ class Dot(dict):
         
     def __repr__(self):
         temp = dict(self)
-#         del temp['GE']
         return repr(temp)
 
 class DotComparator(object):
