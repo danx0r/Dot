@@ -1,26 +1,19 @@
-import operator, types
-
 class Dot(dict):
     def __getattr__(self, attribute):
         return self[attribute]
      
     def __setattr__(self, key, val):
         self[key] = val
-
-    def select(self, gen):
-        return list(gen)
-
 if __name__ == "__main__":
     foo = Dot()
     foo['xyz'] = 456
     print foo.xyz
     foo.abc = 123
     print foo['abc']
-    print "> 200:", foo.select(e for e in foo if foo[e] > 200)
-    print "> 100:", foo.select(e for e in foo if foo[e] > 100)
+    foo.update = 'bar'
+    print foo.update                            #doesn't work; still a method
+    print foo['update']
     foo = Dot()
-    foo.dee = Dot(bar = 11111)
-    foo['def'] = Dot({'bar': 11112})         #foo.def errors due to keyword
-    print foo
-    print foo.select(e for e in foo if foo[e].bar > 11110 and foo[e].bar < 11112)
-    
+    foo.abc = Dot(bar = 4, bat = 5)
+    foo['def'] = Dot(bar = 7, bat = 8)          #.def reserved; foo.def = syntax error
+    print [e for e in foo if foo[e].bar == 7]
