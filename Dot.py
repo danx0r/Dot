@@ -55,4 +55,5 @@ if __name__ == "__main__":
     print "> 200:", foo.GE(200)
     print "> 100:", foo.GE(100)
     print "nested:", foo.GE.bar(11112)
-    print "nested:", foo.EQ['bar'](11111)
+    x = foo.EQ['bar'](11111)[0]
+    print foo[x].bar
