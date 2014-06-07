@@ -17,21 +17,30 @@ class Dot(dict):
         return repr(temp)
 
 class DotComparator(object):
-    def __init__(self, super, op):
+    def __init__(self, super, op, attr=None):
         self.super = super
         self.op = op
+        self.attr = attr
 
     def __getattr__(self, attribute):
-#         print "GE attrib:", attribute
-        return DotComparator(self.super, self.op)
+        print "GE attrib:", self.super, attribute
+        return DotComparator(self.super, self.op, attribute)
 
     def __call__(self, val):
 #         print "GE call():", args
         result = []
         for key in self.super:
             if key != 'GE':
-                if self.super[key] >= val:
-                    result.append(key)
+                print "COMPARE:", self.super[key], ">=", val
+                if self.attr:
+                    try:
+                        if self.attr in self.super[key] and self.super[key][self.attr] >= val:
+                            result.append(key)
+                    except:
+                        pass
+                else:
+                    if self.super[key] >= val:
+                        result.append(key)
         return result
 
 # Dot.GE = DotComparator(operator.ge)
@@ -42,7 +51,8 @@ if __name__ == "__main__":
     print foo.xyz
     foo.abc = 123
     print foo['abc']
-    foo['def'] = Dot({'bar': 11111})         #foo.def errors due to keyword
+    foo.dee = Dot({'bar': 11111})
+    foo['def'] = Dot({'bar': 11112})         #foo.def errors due to keyword
     print foo
     print "> 200:", foo.GE(200)
     print "> 100:", foo.GE(100)
