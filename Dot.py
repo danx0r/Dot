@@ -2,6 +2,13 @@
 # dict with js-like dot access
 #
 class Dot(dict):
+    convert = True
+    def __init__(self, *args, **kw):
+        if len(args) and args[0] == False:
+            dict.__setattr__(self, 'convert', False)
+            args = args[1:]
+        dict.__init__(self, *args, **kw)
+
     def __getattr__(self, attribute):
         return self[attribute]
      
@@ -9,7 +16,7 @@ class Dot(dict):
         self[key] = val
 
     def __setitem__(self, key, val):
-        if type(val) == dict:
+        if self.convert and type(val) == dict:
             val = Dot(val)
         dict.__setitem__(self, key, val)
 
@@ -28,6 +35,7 @@ if __name__ == "__main__":
     print foo
     print [e for e in foo if foo[e]['bar']['far'] == 3]
     print [e for e in foo if foo[e].bar.far == 7]
+#     foo = Dot(False)                            #no dict-->Dot conversion; foo.car.bay will error
     d = {'bay': 1}
     foo.car = d
     d['bay'] += 1
