@@ -28,7 +28,11 @@ if __name__ == "__main__":
     print foo
     print [e for e in foo if foo[e]['bar']['far'] == 3]
     print [e for e in foo if foo[e].bar.far == 7]
-    d = Dot({'bay': 789})
+    d = {'bay': 1}
     foo.car = d
-    d['bay'] = 987
+    d['bay'] += 1
+    print foo.car.bay
+    d = Dot({'bay': 1})
+    foo.car = d
+    d['bay'] += 1
     print foo.car.bay
