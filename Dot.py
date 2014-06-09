@@ -8,6 +8,11 @@ class Dot(dict):
     def __setattr__(self, key, val):
         self[key] = val
 
+    def __setitem__(self, key, val):
+        if type(val) == dict:
+            val = Dot(val)
+        dict.__setitem__(self, key, val)
+
 if __name__ == "__main__":
     foo = Dot()
     foo['xyz'] = 456
@@ -23,3 +28,5 @@ if __name__ == "__main__":
     print foo
     print [e for e in foo if foo[e]['bar']['far'] == 3]
     print [e for e in foo if foo[e].bar.far == 7]
+    foo.car = {'bay': 789}
+    print foo.car.bay
